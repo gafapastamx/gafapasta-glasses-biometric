@@ -21,25 +21,22 @@
 </head>
 <body class="select-none relative flex items-center justify-center bg-black">
 
-  <!-- Contenedor Principal en Vivo (100dvh como la Primera WebApp) -->
   <div class="relative w-full h-[100dvh] max-w-md mx-auto bg-black overflow-hidden flex flex-col justify-between">
     <video id="webcam" autoplay playsinline muted class="hidden"></video>
     <canvas id="output_canvas" class="absolute inset-0 w-full h-full object-cover espejo"></canvas>
 
-    <!-- Pantalla de Inicio -->
+    <!-- Pantalla de Inicio con Botón de Arranque -->
     <div id="loader" class="absolute inset-0 bg-black/95 flex flex-col items-center justify-center p-6 text-center z-40">
-      <p class="text-lime-400 text-[11px] tracking-[0.25em] uppercase mb-2">// GAFAPASTA ARGON ENGINE v4.0</p>
+      <p class="text-lime-400 text-[11px] tracking-[0.25em] uppercase mb-2">// GAFAPASTA ARGON ENGINE v4.2</p>
       <h1 class="text-xl font-bold uppercase tracking-tight mb-3">Biometría 3D & Física Óptica</h1>
-      <p id="status-text" class="text-xs text-neutral-400 mb-6">Inicializando escáner biométrico MediaPipe...</p>
+      <p id="status-text" class="text-xs text-neutral-400 mb-6">Cargando motor biométrico...</p>
       <button id="start-btn" class="hidden bg-lime-400 text-black font-bold px-6 py-3.5 text-xs uppercase tracking-widest hover:bg-white transition shadow-lg">
         Encender Escáner Biométrico →
       </button>
     </div>
 
-    <!-- HUD SUPERIOR: Telemetría en Vivo de las 3 Fases del GafapastaArgonEngine -->
-    <div id="hud" class="hidden relative z-20 m-2.5 bg-black/80 backdrop-blur-md border border-white/20 p-3 text-[11px]">
-      
-      <!-- Encabezado HUD -->
+    <!-- HUD SUPERIOR -->
+    <div id="hud" class="hidden relative z-20 m-2.5 bg-black/85 backdrop-blur-md border border-white/20 p-3 text-[11px]">
       <div class="flex justify-between items-center border-b border-white/15 pb-1.5 mb-2">
         <div class="flex items-center gap-1.5">
           <span class="w-2 h-2 rounded-full bg-lime-400 animate-pulse"></span>
@@ -51,12 +48,10 @@
         </div>
       </div>
 
-      <!-- Fase 1: Lectura Biométrica -->
       <p id="hud-biometrics" class="text-neutral-200 text-[10px] leading-snug mb-2">
         Escaneando geometría facial...
       </p>
 
-      <!-- Fase 2 y 3: Tarjeta de Espesor de Borde y Neuro-optometría -->
       <div id="hud-optics-card" class="bg-white/5 border-l-2 border-lime-400 pl-2.5 py-1.5 flex flex-col gap-1">
         <div class="flex justify-between items-center">
           <span class="text-[9px] text-neutral-400 uppercase">Espesor Borde Calculado:</span>
@@ -65,7 +60,6 @@
         <p id="hud-aesthetics-msg" class="text-[10px] text-neutral-300 leading-tight">
           Estética equilibrada dentro del aro.
         </p>
-        <!-- Botón de Upsell Inteligente en Vivo -->
         <button id="btn-upsell-live" class="hidden mt-1 bg-amber-400 text-black font-bold py-1 px-2 text-[9px] uppercase tracking-wider text-center">
           ⚡ Upsell: Cambiar a Índice 1.67 (-40% grosor)
         </button>
@@ -76,18 +70,12 @@
       </div>
     </div>
 
-    <!-- PANEL INFERIOR: Controles de Armazón + Graduación Rx + Índice de Mica -->
+    <!-- PANEL INFERIOR -->
     <div id="controls" class="hidden relative z-20 mx-2.5 mb-3 bg-black/90 backdrop-blur-xl border border-white/25 p-3 shadow-2xl">
-      
-      <!-- Pestañas para alternar rápido entre Armazones y Graduación Rx -->
       <div class="flex justify-between items-center border-b border-white/15 pb-2 mb-2.5">
         <div class="flex gap-1.5">
-          <button id="tab-frames" class="px-2.5 py-1 text-[10px] uppercase font-bold bg-lime-400 text-black">
-            1. Armazones
-          </button>
-          <button id="tab-rx" class="px-2.5 py-1 text-[10px] uppercase font-bold border border-white/25 text-white">
-            2. Graduación Rx & Índice
-          </button>
+          <button id="tab-frames" class="px-2.5 py-1 text-[10px] uppercase font-bold bg-lime-400 text-black">1. Armazones</button>
+          <button id="tab-rx" class="px-2.5 py-1 text-[10px] uppercase font-bold border border-white/25 text-white">2. Rx & Índice</button>
         </div>
         <div class="flex items-center gap-1">
           <button id="scale-down" class="bg-white/10 border border-white/20 px-2 py-0.5 text-[10px] text-white font-bold">-</button>
@@ -99,7 +87,6 @@
         </div>
       </div>
 
-      <!-- VISTA A: Selector de Armazones y Tinte -->
       <div id="panel-frames">
         <div class="flex justify-between items-center mb-1.5 text-[9px] text-neutral-400">
           <span id="frame-specs">CALIBRE 52-20-145 // BISEL 4.5MM</span>
@@ -117,7 +104,6 @@
         </div>
       </div>
 
-      <!-- VISTA B: Consola de Graduación Rx e Índice de Refracción -->
       <div id="panel-rx" class="hidden mb-2.5">
         <div class="grid grid-cols-2 gap-2 mb-2">
           <div>
@@ -135,207 +121,5 @@
           <button data-index="1.56" class="py-1 text-[10px] border border-lime-400 bg-lime-400 text-black font-bold">1.56</button>
           <button data-index="1.60" class="py-1 text-[10px] border border-white/25 text-neutral-300">1.60</button>
           <button data-index="1.67" class="py-1 text-[10px] border border-white/25 text-neutral-300">1.67</button>
-          <button data-index="1.74" class="py-1 text-[10px] border border-white/25 text-neutral-300">1.74</button>
-        </div>
-      </div>
-
-      <!-- Botón Handoff a WhatsApp -->
-      <a id="wa-link" href="#" target="_blank" class="block w-full text-center bg-lime-400 text-black font-bold py-2.5 text-xs uppercase tracking-widest hover:bg-white transition">
-        Mandar Expediente Argon por WhatsApp →
-      </a>
-    </div>
-  </div>
-
-  <script type="module">
-    import { FaceLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
-
-    /**
-     * CLASE PRINCIPAL: GafapastaArgonEngine (Integrada con Biometría en Vivo)
-     */
-    class GafapastaArgonEngine {
-      constructor(biometricData, prescription, frameModel, lensIndex) {
-        this.bio = biometricData;   // { shape, ratio, dip_mm, balance_score }
-        this.rx = prescription;     // { esfera, cilindro }
-        this.frame = frameModel;    // { nombre, calibre_mm, puente_mm, aro_grosor_mm }
-        this.index = lensIndex;     // Float: 1.50, 1.56, 1.60, 1.67, 1.74
-      }
-
-      analyze_biometrics() {
-        return {
-          shape: this.bio.shape,
-          dip_mm: this.bio.dip_mm,
-          balance_score: this.bio.balance_score,
-          readout: `${this.bio.shape} (Índice ${this.bio.ratio}) // ${this.bio.recommendation}`
-        };
-      }
-
-      calculate_edge_thickness() {
-        const diopterEquivalent = Math.abs(this.rx.esfera) + Math.abs(this.rx.cilindro);
-        // Fórmula sagital de espesor + 1.2mm de grosor mínimo de seguridad
-        const thickness = ((Math.pow(this.frame.calibre_mm, 2) * diopterEquivalent) / (2000 * (this.index - 1))) + 1.2;
-        return Number(thickness.toFixed(2));
-      }
-
-      evaluate_aesthetics(geometry, thickness) {
-        const limiteAro = this.frame.aro_grosor_mm || 4.2;
-        if (thickness > limiteAro && this.index < 1.67) {
-          const diopterEq = Math.abs(this.rx.esfera) + Math.abs(this.rx.cilindro);
-          const thick167 = (((Math.pow(this.frame.calibre_mm, 2) * diopterEq) / (2000 * (1.67 - 1))) + 1.2).toFixed(2);
-          const ahorro = Math.round(((thickness - thick167) / thickness) * 100);
-          return {
-            status: "warning",
-            recommended_index: 1.67,
-            message: `⚠️ El espesor (${thickness}mm) sobresaldrá del aro (${limiteAro}mm).`,
-            upsell_recommendation: `Cambiar a índice 1.67 reduce ${ahorro}% el grosor (a ${thick167}mm).`
-          };
-        }
-        if (thickness > limiteAro && this.index === 1.67) {
-          return {
-            status: "warning",
-            recommended_index: 1.74,
-            message: `⚠️ Graduación alta (${thickness}mm) para este calibre.`,
-            upsell_recommendation: `Subir a índice 1.74 Ultra-Thin para máxima estética.`
-          };
-        }
-        return {
-          status: "optimal",
-          recommended_index: null,
-          message: `✓ Estética equilibrada: borde (${thickness}mm) oculto en bisel (${limiteAro}mm).`,
-          upsell_recommendation: null
-        };
-      }
-
-      predict_adaptation_shock() {
-        const sph = Math.abs(this.rx.esfera);
-        const cyl = Math.abs(this.rx.cilindro);
-        const score = (sph * 0.45) + (cyl * 1.35) + (this.index >= 1.67 ? 0.5 : 0);
-
-        if (score < 2.2) return { difficulty_level: "BAJO", transition_days_estimated: 2 };
-        if (score < 4.5) return { difficulty_level: "MEDIO", transition_days_estimated: 5 };
-        return { difficulty_level: "ALTO (Asférico)", transition_days_estimated: 8 };
-      }
-
-      execute_pipeline() {
-        const facial_geometry = this.analyze_biometrics();
-        const edge_thickness_mm = this.calculate_edge_thickness();
-        const aesthetic_compatibility = this.evaluate_aesthetics(facial_geometry, edge_thickness_mm);
-        const adaptation_score = this.predict_adaptation_shock();
-
-        return {
-          biometric_readout: facial_geometry.readout,
-          calculated_thickness_mm: edge_thickness_mm,
-          aesthetics_alert: aesthetic_compatibility,
-          adaptation_forecast: adaptation_score,
-          ready_for_whatsapp_handoff: true
-        };
-      }
-    }
-
-    // Generador de tus 3 armazones fotorrealistas para la cámara en vivo
-    function generarArmazonSVG(id, tinte) {
-      if (id === "carey-doble-puente") {
-        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 205">
-          <defs>
-            <linearGradient id="careyBase" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#1f0e05"/><stop offset="20%" stop-color="#9a4e12"/>
-              <stop offset="40%" stop-color="#291206"/><stop offset="60%" stop-color="#d97706"/>
-              <stop offset="80%" stop-color="#1c0c04"/><stop offset="100%" stop-color="#853f0d"/>
-            </linearGradient>
-            <linearGradient id="reflejoAR" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="rgba(96,165,250,0.38)"/>
-              <stop offset="30%" stop-color="rgba(255,255,255,0.08)"/>
-              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-            </linearGradient>
-          </defs>
-          <path d="M58,42 L205,42 L230,68 C228,132 198,175 135,175 C75,175 48,135 46,72 Z" fill="${tinte}"/>
-          <path d="M482,42 L335,42 L310,68 C312,132 342,175 405,175 C465,175 492,135 494,72 Z" fill="${tinte}"/>
-          <polygon points="68,44 125,44 88,170 54,142" fill="url(#reflejoAR)"/>
-          <polygon points="342,44 398,44 362,170 328,142" fill="url(#reflejoAR)"/>
-          <path d="M18,58 L54,22 L486,22 L522,58 L522,94 L506,112 C495,165 460,192 405,192 C345,192 310,160 296,102 C290,78 282,72 270,72 C258,72 250,78 244,102 C230,160 195,192 135,192 C80,192 45,165 34,112 L18,94 Z M62,40 L202,40 L226,65 C224,132 195,174 135,174 C76,174 50,132 48,68 Z M338,40 L478,40 L492,68 C490,132 464,174 405,174 C345,174 316,132 314,65 Z M225,38 L315,38 L302,54 L238,54 Z" fill="url(#careyBase)" fill-rule="evenodd" stroke="#140903" stroke-width="2"/>
-        </svg>`;
-      }
-      if (id === "metal-dorado") {
-        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 195">
-          <defs>
-            <linearGradient id="goldW" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#a16207"/><stop offset="50%" stop-color="#fef08a"/><stop offset="100%" stop-color="#854d0e"/>
-            </linearGradient>
-            <linearGradient id="reflejoAR2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="rgba(52,211,153,0.35)"/>
-              <stop offset="35%" stop-color="rgba(255,255,255,0.06)"/>
-              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-            </linearGradient>
-          </defs>
-          <path d="M44,54 C52,30 120,24 195,34 C222,38 232,58 228,102 C222,154 188,176 132,174 C68,172 40,136 44,54 Z" fill="${tinte}"/>
-          <path d="M496,54 C488,30 420,24 345,34 C318,38 308,58 312,102 C318,154 352,176 408,174 C472,172 500,136 496,54 Z" fill="${tinte}"/>
-          <polygon points="65,36 125,36 90,168 52,135" fill="url(#reflejoAR2)"/>
-          <polygon points="355,36 415,36 380,168 342,135" fill="url(#reflejoAR2)"/>
-          <ellipse cx="242" cy="96" rx="5" ry="12" transform="rotate(-14 242 96)" fill="rgba(255,255,255,0.5)" stroke="#a16207" stroke-width="1.5"/>
-          <ellipse cx="298" cy="96" rx="5" ry="12" transform="rotate(14 298 96)" fill="rgba(255,255,255,0.5)" stroke="#a16207" stroke-width="1.5"/>
-          <path d="M22,58 L44,54 M518,58 L496,54" stroke="url(#goldW)" stroke-width="6" stroke-linecap="round"/>
-          <path d="M228,68 Q270,48 312,68" fill="none" stroke="url(#goldW)" stroke-width="5"/>
-          <path d="M44,54 C52,30 120,24 195,34 C222,38 232,58 228,102 C222,154 188,176 132,174 C68,172 40,136 44,54 Z" fill="none" stroke="url(#goldW)" stroke-width="5.5"/>
-          <path d="M496,54 C488,30 420,24 345,34 C318,38 308,58 312,102 C318,154 352,176 408,174 C472,172 500,136 496,54 Z" fill="none" stroke="url(#goldW)" stroke-width="5.5"/>
-        </svg>`;
-      }
-      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 195">
-        <defs>
-          <linearGradient id="acetatoNegro" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#3f3f46"/><stop offset="15%" stop-color="#18181b"/><stop offset="100%" stop-color="#09090b"/>
-          </linearGradient>
-        </defs>
-        <path d="M48,46 C95,42 185,46 218,56 C225,112 205,168 140,170 C72,170 46,132 42,68 Z" fill="${tinte}"/>
-        <path d="M492,46 C445,42 355,46 322,56 C315,112 335,168 400,170 C468,170 494,132 498,68 Z" fill="${tinte}"/>
-        <path d="M10,32 C85,22 195,30 245,42 C260,45 280,45 295,42 C345,30 455,22 530,32 L524,68 C514,72 510,82 506,112 C498,164 465,186 398,186 C332,186 308,152 296,95 C290,72 280,66 270,66 C260,66 250,72 244,95 C232,152 208,186 142,186 C75,186 42,164 34,112 C30,82 26,72 16,68 Z M52,46 C95,42 182,46 216,56 C222,112 204,168 140,168 C75,168 50,132 44,68 Z M488,46 C445,42 358,46 324,56 C318,112 336,168 400,168 C465,168 490,132 496,68 Z" fill="url(#acetatoNegro)" fill-rule="evenodd" stroke="#000" stroke-width="2"/>
-        <ellipse cx="30" cy="48" rx="9" ry="3.8" fill="#e4e4e7"/><ellipse cx="510" cy="48" rx="9" ry="3.8" fill="#e4e4e7"/>
-      </svg>`;
-    }
-
-    const CATALOGO = [
-      { id: "carey-doble-puente", nombre: "Carey Doble Puente", anchoMm: 140, calibre_mm: 52, puente_mm: 20, aro_grosor_mm: 4.5, customSrc: null },
-      { id: "metal-dorado", nombre: "Metal Dorado Hex", anchoMm: 138, calibre_mm: 53, puente_mm: 19, aro_grosor_mm: 2.6, customSrc: null },
-      { id: "wayfarer-obsidiana", nombre: "Wayfarer Obsidiana", anchoMm: 142, calibre_mm: 54, puente_mm: 18, aro_grosor_mm: 4.2, customSrc: null }
-    ];
-
-    let armazonActual = CATALOGO[0];
-    let indiceActual = 1.56;
-    let tinteActual = "rgba(255,255,255,0.06)";
-    let ajusteEscalaUsuario = 1.0;
-    let faceLandmarker;
-
-    let biometriaEnVivo = {
-      shape: "Proporción Balanceada",
-      ratio: "1.33",
-      dip_mm: 63,
-      balance_score: 0.95,
-      recommendation: "Silueta de autor compatible"
-    };
-
-    const frameImage = new Image();
-    const video = document.getElementById("webcam");
-    const canvas = document.getElementById("output_canvas");
-    const ctx = canvas.getContext("2d");
-
-    function ejecutarArgonPipeline() {
-      const rx = {
-        esfera: parseFloat(document.getElementById("rx-esfera").value) || 0,
-        cilindro: parseFloat(document.getElementById("rx-cilindro").value) || 0
-      };
-
-      const engine = new GafapastaArgonEngine(biometriaEnVivo, rx, armazonActual, indiceActual);
-      const output = engine.execute_pipeline();
-
-      // Actualizar HUD con el paquete del GafapastaArgonEngine
-      document.getElementById("hud-dip").innerText = `DIP: ${biometriaEnVivo.dip_mm}mm`;
-      document.getElementById("hud-ratio").innerText = `ÍNDICE: ${biometriaEnVivo.ratio}`;
-      document.getElementById("hud-biometrics").innerText = output.biometric_readout;
-      document.getElementById("hud-thickness").innerText = `${output.calculated_thickness_mm} mm (n=${indiceActual.toFixed(2)})`;
-      document.getElementById("hud-aesthetics-msg").innerText = output.aesthetics_alert.message;
-      document.getElementById("hud-shock").innerText = output.adaptation_forecast.difficulty_level;
-      document.getElementById("hud-days").innerText = `${output.adaptation_forecast.transition_days_estimated} días`;
-
-      const card = document.getElementById("hud-optics-card");
-      const btnUpsell = document.getElementById("btn-upsell-live");
-
-      if (output.aesthetics_alert.status === "warning") {
-        card.
+          <button data-index="1.74" class="py-1 text-[10px] border border-white/
+            
